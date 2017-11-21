@@ -32,6 +32,11 @@
 #include "streams_common.h"
 #include "streams.h"
 
+#ifdef __APPLE__
+     #include <sys/types.h>
+     #include <sys/sysctl.h>
+#endif
+
 /*
  * utility
  *
@@ -576,7 +581,7 @@ wxwrite(int fd, wchar_t *ptr)
 	size_t req_bufsize;
 
 	if (ptr == NULL)
-		return (cxwrite(NULL, 0, 1));
+		return (cxwrite(0, NULL, 1));
 
 	if (convert_buffer == NULL)
 		convert_buffer = safe_realloc(NULL, convert_bufsize);
@@ -801,7 +806,7 @@ pprintwc(FILE *fp, wchar_t c)
 	if (iswspace(c))
 		(void) fprintf(fp, " ");
 	else if (iswprint(c))
-		(void) fprintf(fp, "%wc", c);
+		(void) fprintf(fp, "%lc", c);
 	else
 		(void) fprintf(fp, ".");
 }
@@ -819,7 +824,7 @@ xdump(FILE *fp, uchar_t *buf, size_t bufsize, int wide)
 	for (; nc < bufsize; buf++) {
 		d[nc % BYTES_PER_LINE] = *buf;
 		if (nc % BYTES_PER_LINE == 0) {
-			(void) fprintf(fp, "%08x:", nc);
+			(void) fprintf(fp, "%08x:", (unsigned int) nc);
 		}
 		(void) fprintf(fp, " %02x", *buf);
 		nc++;

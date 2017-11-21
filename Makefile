@@ -42,4 +42,4 @@ sort: $(OBJS)
 	$(CC) -MMD -g -Wall -O3 -c -o $@ $<
 
 clean:
-	rm -f sort *.o
+	rm -f sort *.o $(OBJS)
