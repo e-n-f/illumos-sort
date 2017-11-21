@@ -348,7 +348,28 @@ strtomem(char *S)
 size_t
 available_memory(size_t mem_limit)
 {
-	size_t phys_avail = sysconf(_SC_AVPHYS_PAGES) * sysconf(_SC_PAGESIZE);
+	long long mem;
+
+#ifdef __APPLE__
+        int64_t hw_memsize;
+        size_t len = sizeof(int64_t);
+        if (sysctlbyname("hw.memsize", &hw_memsize, &len, NULL, 0) < 0) {
+                perror("sysctl hw.memsize");
+                exit(EXIT_FAILURE);
+        }
+        mem = hw_memsize;
+#else
+        long long pagesize = sysconf(_SC_PAGESIZE);
+        long long pages = sysconf(_SC_PHYS_PAGES);
+        if (pages < 0 || pagesize < 0) {
+                perror("sysconf _SC_PAGESIZE or _SC_PHYS_PAGES");
+                exit(EXIT_FAILURE);
+        }
+
+        mem = (long long) pages * pagesize;
+#endif
+
+	size_t phys_avail = mem;
 	size_t avail;
 
 	if (mem_limit != 0) {
@@ -760,7 +781,6 @@ die(const char *format, ...)
 	exit(E_ERROR);
 }
 
-#ifdef DEBUG
 /*
  * pprintc() is called only by xdump().
  */
@@ -833,4 +853,3 @@ xdump(FILE *fp, uchar_t *buf, size_t bufsize, int wide)
 
 	(void) fprintf(fp, "\n");
 }
-#endif /* DEBUG */

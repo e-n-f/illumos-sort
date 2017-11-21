@@ -272,6 +272,8 @@ stream_open_for_read(sort_t *S, stream_t *str)
 void
 stream_set_size(stream_t *str, size_t new_size)
 {
+	size_t PAGESIZE = sysconf(_SC_PAGESIZE);
+
 	/*
 	 * p_new_size is new_size rounded upwards to nearest multiple of
 	 * PAGESIZE, since mmap() is going to reserve it in any case.  This

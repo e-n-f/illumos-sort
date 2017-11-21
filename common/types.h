@@ -39,6 +39,12 @@ extern "C" {
 #include <stdio.h>
 #include <stdlib.h>
 
+typedef unsigned char uchar_t;
+typedef unsigned long long u_longlong_t;
+typedef unsigned int uint_t;
+typedef unsigned long ulong_t;
+
+
 typedef	int flag_t;
 
 typedef	int (*cmp_fcn_t)(void *, void *, flag_t);

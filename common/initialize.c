@@ -77,7 +77,7 @@ initialize_pre(sort_t *S)
 	 * Simple localization issues.
 	 */
 	(void) setlocale(LC_ALL, "");
-	(void) textdomain(TEXT_DOMAIN);
+	// (void) textdomain(TEXT_DOMAIN);
 
 #ifndef DEBUG_FORCE_WIDE
 	S->m_c_locale = xstreql("C", setlocale(LC_COLLATE, NULL));

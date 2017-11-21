@@ -28,61 +28,18 @@
 # cmd/sort/Makefile
 #
 
-PROG = sort
-XPG4PROG = sort
+all: sort
 
-include ../Makefile.cmd
+OBJS =	common/check.o common/fields.o common/initialize.o common/internal.o \
+	common/main.o common/merge.o common/options.o common/streams.o \
+	common/streams_array.o common/streams_mmap.o common/streams_stdio.o \
+	common/streams_wide.o common/utility.o
 
-SRCS =	common/check.c common/fields.c common/initialize.c common/internal.c \
-	common/main.c common/merge.c common/options.c common/streams.c \
-	common/streams_array.c common/streams_mmap.c common/streams_stdio.c \
-	common/streams_wide.c common/utility.c
-POFILES = $(SRCS:common/%.c=./%.po)
-CLOBBERFILES = $(DCFILE) $(POFILE) $(POFILES)
+sort: $(OBJS)
+	$(CC) -g -Wall -O3 -o sort $(OBJS)
 
-.KEEP_STATE:
+%.o: %.c
+	$(CC) -MMD -g -Wall -O3 -c -o $@ $<
 
-$(XPG4) := CPPFLAGS += -DXPG4
-XGETFLAGS += -a -x sort.xcl
-
-SUBDIRS =        $(MACH)
-$(BUILD64)SUBDIRS += $(MACH64)
-
-all     :=      TARGET = all
-install :=      TARGET = install
-clean   :=      TARGET = clean
-clobber :=      TARGET = clobber
-lint    :=      TARGET = lint
-debug	:=	TARGET = debug
-convert :=      TARGET = convert
-invoke  :=      TARGET = invoke
-stats   :=      TARGET = stats
-
-all : $(SUBDIRS)
-
-clean clobber lint : $(SUBDIRS)
-
-debug convert invoke stats : $(SUBDIRS)
-
-install : $(SUBDIRS)
-	-$(RM) $(ROOTPROG)
-	-$(LN) $(ISAEXEC) $(ROOTPROG)
-
-$(POFILE) : $(POFILES)
-	echo $(SRCS)
-	echo $(POFILES)
-	-$(RM) $@
-	$(CAT) $(POFILES) > $@
-
-%.po : common/%.c
-	$(RM) messages.po
-	$(XGETTEXT) -c TRANSLATION_NOTE $<
-	$(SED) -e '/^domain/d' messages.po > $@
-	$(RM) messages.po
-
-$(SUBDIRS) : FRC
-	@cd $@; pwd; $(MAKE) $(TARGET)
-
-FRC :
-
-include ../Makefile.targ
+clean:
+	rm -f sort *.o

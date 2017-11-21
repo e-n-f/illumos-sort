@@ -39,7 +39,6 @@ extern "C" {
 #include <assert.h>
 #include <errno.h>
 #include <fcntl.h>
-#include <libintl.h>
 #include <signal.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -47,6 +46,8 @@ extern "C" {
 #include <string.h>
 #include <unistd.h>
 #include <wchar.h>
+
+#define gettext(s) s
 
 #include "types.h"
 

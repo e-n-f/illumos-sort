@@ -25,6 +25,32 @@
 
 #include "fields.h"
 
+size_t wslen(const wchar_t *ws) {
+	size_t ret = 0;
+
+	for (; *ws; ws++) {
+		ret++;
+	}
+
+	return ret;
+}
+
+wchar_t *wsdup(const wchar_t *s) {
+	size_t len = wslen(s);
+	wchar_t *ret = malloc((len + 1) * sizeof(wchar_t));
+	if (ret == NULL) {
+		return ret;
+	}
+
+	wchar_t *out = ret;
+	for (; *s; s++) {
+		*out = *s;
+		out++;
+	}
+	*out = '\0';
+	return ret;
+}
+
 /*
  * fields
  *
@@ -305,7 +331,6 @@ field_add_to_chain(field_t **F, field_t *A)
 		field_add_to_chain(&((*F)->f_next), A);
 }
 
-#ifdef DEBUG
 #ifndef _LP64
 #define	FIELD_FMT \
 "\nStart field: %d\tStart offset: %d\nEnd field: %d\tEnd offset: %d\n"
@@ -357,7 +382,6 @@ field_print(field_t *F)
 	(void) fprintf(stderr, FIELD_FMT, F->f_start_field, F->f_start_offset,
 	    F->f_end_field, F->f_end_offset);
 }
-#endif /* DEBUG */
 
 static ssize_t
 field_boundary(field_t *F, line_rec_t *L, int is_end, int is_blanks)

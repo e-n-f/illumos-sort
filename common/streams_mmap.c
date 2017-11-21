@@ -190,6 +190,8 @@ stream_mmap_eos(stream_t *str)
 static void
 stream_mmap_release_line(stream_t *str)
 {
+	size_t PAGESIZE = sysconf(_SC_PAGESIZE);
+
 	caddr_t origin = str->s_type.SF.s_release_origin;
 	size_t release = 0;
 

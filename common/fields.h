@@ -41,7 +41,6 @@ extern "C" {
 #include <string.h>
 #include <time.h>
 #include <wchar.h>
-#include <widec.h>
 
 #include "statistics.h"
 #include "types.h"
