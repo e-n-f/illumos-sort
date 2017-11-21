@@ -25,6 +25,7 @@
 
 #include "fields.h"
 #include "streams_wide.h"
+#include <wctype.h>
 
 /*
  * fields

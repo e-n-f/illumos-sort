@@ -37,6 +37,8 @@
      #include <sys/sysctl.h>
 #endif
 
+#include <wctype.h>
+
 /*
  * utility
  *
