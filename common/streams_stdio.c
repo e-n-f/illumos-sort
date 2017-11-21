@@ -252,6 +252,7 @@ stream_stdio_fetch(stream_t *str)
 			__S(stats_incr_shelves());
 		} else {
 			stream_set(str, STREAM_EOS_REACHED);
+			ret_val = NEXT_LINE_COMPLETE;
 			warn(WMSG_NEWLINE_ADDED, str->s_filename);
 		}
 	} else {

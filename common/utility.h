@@ -45,6 +45,7 @@ extern "C" {
 #include <string.h>
 #include <unistd.h>
 #include <wchar.h>
+#include <sys/param.h>
 
 #define gettext(s) s
 
@@ -61,8 +62,6 @@ extern "C" {
 #endif /* FALSE */
 
 #define	SGN(x)		(((x) == 0 ? 0 : ((x) > 0 ? 1 : -1)))
-#define	MIN(x, y)	(((x) < (y)) ? (x) : (y))
-#define	MAX(x, y)	(((x) > (y)) ? (x) : (y))
 
 #define	SE_BAD_FIELD			1
 #define	SE_BAD_SPECIFIER		2

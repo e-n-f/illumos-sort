@@ -51,6 +51,9 @@ extern void stream_wide_put_line_unique(stream_t *, line_rec_t *);
 
 extern const stream_ops_t stream_wide_ops;
 
+size_t wslen(const wchar_t *ws);
+wchar_t *wsdup(const wchar_t *s);
+
 #ifdef	__cplusplus
 }
 #endif
